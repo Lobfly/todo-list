@@ -1,13 +1,34 @@
 <template>
   <div id="header">
-      <input type="text" placeholder="请输入你的任务名称，按回车确认">
+      <input type="text" placeholder="输入任务名称，按回车添加" v-model="title" @keydown.enter="addTodo">
   </div>
 </template>
 
 <script>
+import {nanoid} from "nanoid"
 export default {
     name:'TodolistHeader',
-
+    data(){
+        return{
+            title:""
+        }
+    },
+    methods:{
+        addTodo(e){
+            //校验数据
+            if(this.title.trim()== "") return  //这里的trim()和v-model.trim的效果一样
+            //包装数据
+            const newTodo = {
+                id:nanoid(),
+                title:this.title,
+                isDone:false
+            }
+            //通知App组件去添加一个newTodo对象
+            this.pushTodo(newTodo)
+            this.title=""  //按完回车后清空
+        }
+    },
+    props:["pushTodo"]
 }
 </script>
 

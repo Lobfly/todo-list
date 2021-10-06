@@ -4,14 +4,19 @@
       <input type="checkbox" v-model="todo.isDone" @click="switchTodo(todo)">
       <div class="itme_text">{{todo.title}}</div>
     </label>
-    <div class="item_delete" @click="deleteTodo(todoIndex)">删除</div>
+    <div class="item_delete" @click="deleteClick">删除</div>
   </div>
 </template>
 
 <script>
 export default {
     name:"TodolistItem",
-    props:["todo","switchTodo","todoIndex","deleteTodo"],
+    props:["todo","switchTodo","deleteTodo"],
+    methods:{
+      deleteClick(){
+        this.deleteTodo(this.todo.id)
+      }
+    }
 }
 </script>
 

@@ -44,7 +44,9 @@ export default {
     switchTodo(todo){
       todo.isDone=!todo.isDone
     },
-    deleteTodo(index){
+    deleteTodo(id){
+      console.log(id)
+      const index = this.todos.findIndex(todo=>todo.id == id)
       this.todos.splice(index,1)
     },
     deleteAll(){

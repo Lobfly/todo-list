@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <TodolistHeader @pushTodo="pushTodo"></TodolistHeader>
-    <TodolistList :todos="todos" :switchTodo="switchTodo" :deleteTodo="deleteTodo"></TodolistList>
+    <TodolistList :todos="todos" :deleteTodo="deleteTodo"></TodolistList>
     <TodolistFooter :todosAll="todosAll" :todosDone="todosDone" @deleteAll="deleteAll" @selectAll="selectAll"></TodolistFooter>
   </div>
 </template>
@@ -10,6 +10,7 @@
 import TodolistHeader from "./components/TodolistHeader.vue"
 import TodolistList from "./components/TodolistList.vue"
 import TodolistFooter from "./components/TodolistFooter.vue"
+import Vue from 'vue'
 export default {
   name: 'App',
   components: {
@@ -41,11 +42,7 @@ export default {
     pushTodo(todo){
       this.todos.push(todo)
     },
-    switchTodo(todo){
-      todo.isDone=!todo.isDone
-    },
     deleteTodo(id){
-      console.log(id)
       const index = this.todos.findIndex(todo=>todo.id == id)
       this.todos.splice(index,1)
     },
@@ -81,6 +78,24 @@ export default {
         this.todos.push(item)
     })
     }
+  },
+  mounted(){
+      this.$bus.$on("switchTodo",id=>{
+        this.todos.forEach((todo,index)=>{
+          if(todo.id == id){
+            this.todos.isDone = !this.todos.isDone
+            return 
+          }
+        })
+      })
+      this.$bus.$on("deleteTodo",id=>{
+        this.todos.forEach((todo,index)=>{
+          if(todo.id == id){
+            this.todos.splice(index,1)
+            return 
+          }
+        })
+      })
   }
 }
 </script>

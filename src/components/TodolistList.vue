@@ -1,12 +1,9 @@
 <template>
   <div id="list">
       <TodolistItem 
-      v-for="(todo,index) in todos" 
+      v-for="todo in todos" 
       :key="todo.id" 
-      :todo="todo" 
-      :switchTodo="switchTodo" 
-      :todoIndex="index" 
-      :deleteTodo="deleteTodo">
+      :todo="todo" >
       </TodolistItem>
   </div>
 </template>
@@ -18,7 +15,7 @@ export default {
     components:{
         TodolistItem
     },
-    props:["todos","switchTodo","deleteTodo"]
+    props:["todos"]
 }
 </script>
 

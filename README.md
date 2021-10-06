@@ -34,8 +34,6 @@ Date: September 30, 2021 1:49 AM
 **App里的methods：**
 
 - pushTodo：将一个todo添加到data里的todos
-- switchTodo：将一个todo的isDone值取反，然后TodolistItem是通过v-model与todos绑定的，所以可以反映到todos里去
-- deleteTodo：根据传递到每个TodolistItem里的index值删除todos里的对应项
 - deleteAll：删除todos里的所有isDone值为真的项
 - selectAll：根据传进来的type值来决定是全选还是取消全选，全选或取消全选都是通过操作每一项的isDone
     
@@ -54,3 +52,6 @@ Date: September 30, 2021 1:49 AM
 
 - created：
     - 读取localStorage数据
+    - 全局事件总线
+        - switchTodo：将一个todo的isDone值取反，然后TodolistItem是通过v-model与todos绑定的，所以可以反映到todos里去
+        - deleteTodo：根据传递到每个TodolistItem里的index值删除todos里的对应项

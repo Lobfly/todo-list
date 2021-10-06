@@ -1,7 +1,7 @@
 <template>
   <div class="item">
     <label>
-      <input type="checkbox" v-model="todo.isDone" @click="switchTodo(todo)">
+      <input type="checkbox" v-model="todo.isDone" @click="switchClick">
       <div class="itme_text">{{todo.title}}</div>
     </label>
     <div class="item_delete" @click="deleteClick">删除</div>
@@ -11,10 +11,13 @@
 <script>
 export default {
     name:"TodolistItem",
-    props:["todo","switchTodo","deleteTodo"],
+    props:["todo"],
     methods:{
       deleteClick(){
-        this.deleteTodo(this.todo.id)
+        this.$bus.$emit("deleteTodo",this.todo.id)
+      },
+      switchClick(){
+        this.$bus.$emit("switchTodo",this.todo.id)
       }
     }
 }

@@ -1,7 +1,7 @@
 <template>
   <div id="footer">
       <div class="btn_selectall" @click="selectAllClick">{{selectAllText[selectAllType]}}</div>
-      <div class="btn_delete" @click="deleteAll">清除已完成任务</div>
+      <div class="btn_delete" @click="deleteAllClick">清除已完成任务</div>
       <div class="total">已完成{{todosDone}} / 全部{{todosAll}}</div>
   </div>
 </template>
@@ -9,7 +9,7 @@
 <script>
 export default {
   name: "TodolistFooter",
-  props:["todosAll","todosDone","deleteAll","selectAll"],
+  props:["todosAll","todosDone"],
   data(){
     return{
       selectAllType:1,
@@ -18,9 +18,11 @@ export default {
   },
   methods:{
     selectAllClick(){
-      this.selectAll(this.selectAllType)
+      this.$emit("selectAll",this.selectAllType)
       this.selectAllType = this.selectAllType?0:1
-      console.log(this.selectAllText[this.selectAllType]) 
+    },
+    deleteAllClick(){
+      this.$emit("deleteAll")
     }
   }
 }

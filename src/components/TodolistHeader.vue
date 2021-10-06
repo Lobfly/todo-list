@@ -24,11 +24,10 @@ export default {
                 isDone:false
             }
             //通知App组件去添加一个newTodo对象
-            this.pushTodo(newTodo)
+            this.$emit("pushTodo",newTodo)
             this.title=""  //按完回车后清空
         }
-    },
-    props:["pushTodo"]
+    }
 }
 </script>
 

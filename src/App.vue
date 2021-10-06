@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <TodolistHeader :pushTodo="pushTodo"></TodolistHeader>
+    <TodolistHeader @pushTodo="pushTodo"></TodolistHeader>
     <TodolistList :todos="todos" :switchTodo="switchTodo" :deleteTodo="deleteTodo"></TodolistList>
-    <TodolistFooter :todosAll="todosAll" :todosDone="todosDone" :deleteAll="deleteAll" :selectAll="selectAll"></TodolistFooter>
+    <TodolistFooter :todosAll="todosAll" :todosDone="todosDone" @deleteAll="deleteAll" @selectAll="selectAll"></TodolistFooter>
   </div>
 </template>
 
@@ -20,13 +20,14 @@ export default {
   data(){
     return{
       todos:[
-          {id:"001",title:"study",isDone:true},
-          {id:"002",title:"game",isDone:true},
-          {id:"003",title:"eat",isDone:false},
+          // {id:"001",title:"study",isDone:true},
+          // {id:"002",title:"game",isDone:true},
+          // {id:"003",title:"eat",isDone:false},
       ]
     }
   },
   computed:{
+    //todosAll和todosDone分别计算所有和已完成的数量
     todosAll(){
       return this.todos.length
     },
@@ -54,11 +55,29 @@ export default {
     selectAll(type){
       this.todos.forEach(todo=>{
         if(type){
-          if(!todo.isDone) todo.isDone=!todo.isDone
+          todo.isDone = true
         }else{
-          if(todo.isDone) todo.isDone=!todo.isDone
+          todo.isDone = false
         }
       })
+      
+    }
+  },
+  watch: {
+    todos: {
+      deep: true,
+      handler(){
+        localStorage.setItem("todos",JSON.stringify(this.todos))
+      }
+    }
+  },
+  created(){
+    //读取localStorage里的todos数据，添加到data里的todos
+    const todosArr = JSON.parse(localStorage.getItem("todos"))
+    if(todosArr) {
+        todosArr.forEach((item)=>{
+        this.todos.push(item)
+    })
     }
   }
 }

@@ -96,6 +96,10 @@ export default {
           }
         })
       })
+  },
+  beforeDestroy(){
+      this.$bus.$off("switchTodo")
+      this.$bus.$off("deleteTodo")
   }
 }
 </script>

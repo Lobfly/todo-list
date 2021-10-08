@@ -3,7 +3,8 @@
       <TodolistItem 
       v-for="todo in todos" 
       :key="todo.id" 
-      :todo="todo" >
+      :todo="todo"
+      :isForbidClick="isForbidClick" >
       </TodolistItem>
   </div>
 </template>
@@ -15,7 +16,7 @@ export default {
     components:{
         TodolistItem
     },
-    props:["todos"]
+    props:["todos","isForbidClick"]
 }
 </script>
 

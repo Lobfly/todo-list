@@ -7,6 +7,6 @@ new Vue({
   render: h => h(App),
   created(){
     const BusComponent = Vue.extend({})
-    Vue.prototype.$bus = new BusComponent()
+    Vue.prototype.$todoBus = new BusComponent()
   }
 }).$mount('#app')

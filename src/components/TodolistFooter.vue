@@ -1,5 +1,5 @@
 <template>
-  <div id="footer">
+  <div id="footer" :class="isForbidClick">
       <div class="btn_selectall" @click="selectAllClick">{{selectAllText[selectAllType]}}</div>
       <div class="btn_delete" @click="deleteAllClick">清除已完成任务</div>
       <div class="total">已完成{{todosDone}} / 全部{{todosAll}}</div>
@@ -9,7 +9,7 @@
 <script>
 export default {
   name: "TodolistFooter",
-  props:["todosAll","todosDone"],
+  props:["todosAll","todosDone","isForbidClick"],
   data(){
     return{
       selectAllType:1,

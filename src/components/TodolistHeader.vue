@@ -1,5 +1,5 @@
 <template>
-  <div id="header">
+  <div id="header" :class="isForbidClick">
       <input type="text" placeholder="输入任务名称，按回车添加" v-model="title" @keydown.enter="addTodo">
   </div>
 </template>
@@ -13,6 +13,7 @@ export default {
             title:""
         }
     },
+    props:["isForbidClick"],
     methods:{
         addTodo(e){
             //校验数据

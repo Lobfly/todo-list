@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <TodolistHeader @pushTodo="pushTodo"></TodolistHeader>
-    <TodolistList :todos="todos" :deleteTodo="deleteTodo"></TodolistList>
-    <TodolistFooter :todosAll="todosAll" :todosDone="todosDone" @deleteAll="deleteAll" @selectAll="selectAll"></TodolistFooter>
+    <TodolistHeader @pushTodo="pushTodo" :isForbidClick="isForbidClick"></TodolistHeader>
+    <TodolistList :todos="todos" :deleteTodo="deleteTodo" :isForbidClick="isForbidClick"></TodolistList>
+    <TodolistFooter :todosAll="todosAll" :todosDone="todosDone" @deleteAll="deleteAll" @selectAll="selectAll" :isForbidClick="isForbidClick"></TodolistFooter>
   </div>
 </template>
 
@@ -10,6 +10,7 @@
 import TodolistHeader from "./components/TodolistHeader.vue"
 import TodolistList from "./components/TodolistList.vue"
 import TodolistFooter from "./components/TodolistFooter.vue"
+import pubsub from "pubsub-js"
 import Vue from 'vue'
 export default {
   name: 'App',
@@ -20,11 +21,8 @@ export default {
   },
   data(){
     return{
-      todos:[
-          // {id:"001",title:"study",isDone:true},
-          // {id:"002",title:"game",isDone:true},
-          // {id:"003",title:"eat",isDone:false},
-      ]
+      todos:[],
+      isForbidClick:[]
     }
   },
   computed:{
@@ -42,10 +40,6 @@ export default {
     pushTodo(todo){
       this.todos.push(todo)
     },
-    deleteTodo(id){
-      const index = this.todos.findIndex(todo=>todo.id == id)
-      this.todos.splice(index,1)
-    },
     deleteAll(){
       this.todos = this.todos.filter((todo)=>{
         if(!todo.isDone) return 1
@@ -59,7 +53,6 @@ export default {
           todo.isDone = false
         }
       })
-      
     }
   },
   watch: {
@@ -78,9 +71,15 @@ export default {
         this.todos.push(item)
     })
     }
+
+    //订阅禁止点击事件消息
+    pubsub.subscribe("forbidClick",(msgName,staus)=>{
+      if(staus) this.isForbidClick.push("forbindClick")
+      else this.isForbidClick.pop()
+      })
   },
   mounted(){
-      this.$bus.$on("switchTodo",id=>{
+      this.$todoBus.$on("switchTodo",id=>{
         this.todos.forEach((todo,index)=>{
           if(todo.id == id){
             this.todos.isDone = !this.todos.isDone
@@ -88,7 +87,7 @@ export default {
           }
         })
       })
-      this.$bus.$on("deleteTodo",id=>{
+      this.$todoBus.$on("deleteTodo",id=>{
         this.todos.forEach((todo,index)=>{
           if(todo.id == id){
             this.todos.splice(index,1)
@@ -98,8 +97,8 @@ export default {
       })
   },
   beforeDestroy(){
-      this.$bus.$off("switchTodo")
-      this.$bus.$off("deleteTodo")
+      this.$todoBus.$off("switchTodo")
+      this.$todoBus.$off("deleteTodo")
   }
 }
 </script>
@@ -116,5 +115,8 @@ body{
   border-radius: 4px;
   padding: 12px;
   box-sizing: border-box;
+}
+.forbindClick{
+  pointer-events: none;
 }
 </style>
